@@ -204,7 +204,7 @@ handle_call({remove_connections, PoolId, Num}, _From, State) ->
         {Pool, OtherPools} ->
             case Num > queue:len(Pool#pool.available) of
                 true ->
-                    State1 = State#state{pools = [Pool#pool{available = queue:new()}]},
+                    State1 = State#state{pools = [Pool#pool{available = queue:new()}|OtherPools]},
                     {reply, queue:to_list(Pool#pool.available), State1};
                 false ->
                     {Conns, OtherConns} = queue:split(Num, Pool#pool.available),
